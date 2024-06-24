@@ -1,0 +1,13 @@
+credentials:
+  usernames:
+    demo_account:
+      email: app_demo@ncb-bank.vn
+      name: Đội dự án chuyển đổi số NCB
+      password: $2b$12$A/Ixr24R0Vmp4pNKMRYrSuODF4PDCX/Xo0HefYwo5Zz/gWSXg.s6.
+cookie:
+  expiry_days: 365
+  key: random_signature_key 
+  name: random_cookie_name
+preauthorized:
+  emails:
+  - dungda@ncb-bank.vn
