@@ -50,11 +50,11 @@ def main():
                     dict_string_io_data[uploaded_file.name] = string_data
                     
             with tab_12:
-                dict_string_io_data = {}
-                list_string_io_data = []
                 is_uploaded = False
                 uploaded_files = st.file_uploader(label = "⬆️Tải nhiều file XML lên⬆️", accept_multiple_files=True, type = ['xml'])
                 if uploaded_files is not None:
+                    dict_string_io_data = {}
+                    list_string_io_data = []
                     for uploaded_file in uploaded_files:
                         bytes_data = uploaded_file.read()
                         bytes_data = uploaded_file.getvalue()
@@ -133,7 +133,7 @@ def main():
         """
         )
         if len(list_string_io_data) == 0:
-            st.info("Chưa có dữ liệu, người dùng tải dữ liệu lên")
+            st.info("Chưa có dữ liệu, đợi dữ liệu được tải lên")
         else:    
             # Save string_data from files to dictionary type
             extract_information = list(zip(df_default_field['Thẻ'],  df_default_field['Chỉ tiêu'], df_default_field['Mô tả']))
