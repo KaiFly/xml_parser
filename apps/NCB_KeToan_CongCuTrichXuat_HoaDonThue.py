@@ -113,7 +113,8 @@ def main():
                     st.toast(f"Đã lấy thêm {df_append_field.shape[0]} trường dữ liệu!", icon='🎉')
                     st.dataframe(df_append_field)
             with st.expander("2.3 Danh sách MST trong Blacklist trốn thuế", expanded=False):
-                df_dn_tron_thue = pd.read_csv(data_tron_thue_csv_path, sep=",", encoding='cp1252')
+                # df_dn_tron_thue = pd.read_csv(data_tron_thue_csv_path, sep=",", encoding='cp1252')
+                df_dn_tron_thue  = pd.DataFrame(columns=['TIN'])
                 st.info(f"Hiện tại danh sách bao gồm: {df_dn_tron_thue.shape[0]}")
                 with st.popover("Cập nhập DS MST Blacklist:"):
                     st.write("**Chú ý: gồm 1 cột thông tin duy nhất: TIN**")
@@ -132,7 +133,7 @@ def main():
         """
         )
         if len(list_string_io_data) == 0:
-            st.info("Chưa có dữ liệu, Người dùng mời tải DL lên")
+            st.info("Chưa có dữ liệu, người dùng tải dữ liệu lên")
         else:    
             # Save string_data from files to dictionary type
             extract_information = list(zip(df_default_field['Thẻ'],  df_default_field['Chỉ tiêu'], df_default_field['Mô tả']))
