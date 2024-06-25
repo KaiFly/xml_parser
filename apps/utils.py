@@ -1,6 +1,6 @@
 data_config = {
     "1": {"Thẻ": "HDon/DLHDon/TTChung", "Chỉ tiêu": "KHMSHDon", "Mô tả": "Ký hiệu mẫu số hóa đơn"},
-    "2": {"Thẻ": "HDon/DLHDon/TTChung", "Chỉ tiêu": "KHHDon", "Mô tả": "Ký hiệu hóa đơn"},
+    "2": {"Thẻ": "HDon/DLHDon/TTChung", "Chỉ tiêu": "KHHDon", "Mô tả": "KH hóa đơn"},
     "3": {"Thẻ": "HDon/DLHDon/TTChung", "Chỉ tiêu": "SHDon", "Mô tả": "Số hóa đơn"},
     "4": {"Thẻ": "HDon/DLHDon/TTChung", "Chỉ tiêu": "NLap", "Mô tả": "Ngày lập"},
     "5": {"Thẻ": "HDon/DLHDon/TTChung/TTHDLQuan", "Chỉ tiêu": "TCHDon", "Mô tả": "Tính chất hóa đơn"},
