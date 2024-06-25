@@ -10,7 +10,6 @@ data_config = {
     "9": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTThue", "Mô tả": "Tổng tiền thuế GTGT"},
     "10": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTTTBSo", "Mô tả": "Tổng tiền thanh toán bằng số"}
 }
-
 data_tron_thue_xls_path = "data_input/DN_TRON_THUE.xlsx"
 data_tron_thue_csv_path = "data_input/DN_TRON_THUE.csv"
 

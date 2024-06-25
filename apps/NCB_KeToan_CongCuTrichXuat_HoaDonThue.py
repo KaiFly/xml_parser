@@ -35,35 +35,40 @@ def main():
             ##### **1. Nhập dữ liệu - Hóa đơn điện tử**
             """
             )
-            tab_11, tab_12 = st.tabs(['1.1 Nhập từng hóa đơn', '1.2 Nhập nhiều hóa đơn'])
+            tab_11, tab_12 = st.tabs(['1.1 Nhập nhiều hóa đơn', '1.2 Nhập từng hóa đơn'])
             # Save input data to dict_string_io_data, list_string_io_data
             is_uploaded = False
+
             with tab_11:
-                dict_string_io_data = {}
-                list_string_io_data = []
+                uploaded_files = st.file_uploader(label = "⬆️Tải nhiều file XML lên⬆️", accept_multiple_files=True, type = ['xml'])
+                if uploaded_files is not None:
+                    dict_string_io_data = {}
+                    list_string_io_data = []
+                    for uploaded_file_i in uploaded_files:
+                        bytes_data = uploaded_file_i.read()
+                        bytes_data = uploaded_file_i.getvalue()
+                        stringio_i = StringIO(uploaded_file_i.getvalue().decode("utf-8"))
+                        string_data_i = stringio_i.read()
+                        list_string_io_data.append(string_data_i)
+                        dict_string_io_data[uploaded_file_i.name] = string_data_i
+
+            with tab_12:
                 uploaded_file = st.file_uploader(label = "⬆️Tải file XML⬆️", accept_multiple_files=False, type = ['xml'])
                 if uploaded_file is not None:
+                    dict_string_io_data = {}
+                    list_string_io_data = []
                     bytes_data = uploaded_file.getvalue()
                     stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
                     string_data = stringio.read()
                     list_string_io_data.append(string_data)
                     dict_string_io_data[uploaded_file.name] = string_data
-                    
-            with tab_12:
-                is_uploaded = False
-                uploaded_files = st.file_uploader(label = "⬆️Tải nhiều file XML lên⬆️", accept_multiple_files=True, type = ['xml'])
-                if uploaded_files is not None:
-                    dict_string_io_data = {}
-                    list_string_io_data = []
-                    for uploaded_file in uploaded_files:
-                        bytes_data = uploaded_file.read()
-                        bytes_data = uploaded_file.getvalue()
-                        stringio = StringIO(uploaded_file.getvalue().decode("utf-8"))
-                        string_data = stringio.read()
-                        list_string_io_data.append(string_data)
-                        dict_string_io_data[uploaded_file.name] = string_data
+                    st.write(len(list_string_io_data))
+                else:
+                    dict_string_io_data = dict_string_io_data
+                    list_string_io_data = list_string_io_data
+
             if len(list_string_io_data) > 0:
-                is_uploaded = True        
+                is_uploaded = True
                 st.toast(f'Đã tải lên thành công {len(list_string_io_data)} files!', icon='🎉')
         with col_13:
             st.markdown(
@@ -245,16 +250,42 @@ def main():
 
             with st.expander("3.3 Data Export", expanded = True):
                 # Show dataframe
-                st.dataframe(df_information, use_container_width=True, height = 200, hide_index=True)
+                st.dataframe(df_information, hide_index=True)
                 
-
                 # Download file as format
                 current_date = datetime.strftime(datetime.now(), '%Y%m%d')
+
+                @st.cache_data
+                def convert_df(df):
+                    # Cache the conversion to prevent computation on every rerun
+                    return df.to_csv().encode("utf-8")
+                @st.cache_data
+                def to_excel(df):
+                    """
+                    Convert dataframe to excel type ready for streamlit download
+                    """
+                    from io import BytesIO
+                    in_memory_fp = BytesIO()
+                    df.to_excel(in_memory_fp)
+                    in_memory_fp.seek(0, 0)
+                    return in_memory_fp.read()
+                
+                df_information_excel = to_excel(df_information)
                 st.download_button(
-                    label="⬇️ Download ⬇️",
-                    data=to_excel(df_information),
+                    label="⬇️ Download (Excel) ⬇️",
+                    data=df_information_excel,
                     file_name=f"{current_date}_DuLieuTrichXuat.xlsx",
                 )
+
+                df_information_csv = convert_df(df_information)
+                st.download_button(
+                    label="⬇️ Download (csv) ⬇️",
+                    data=df_information_csv,
+                    file_name=f"{current_date}_DuLieuTrichXuat.csv",
+                    mime="text/csv",
+                )
+
+
 
 # main()
 import streamlit_authenticator as stauth
@@ -284,7 +315,7 @@ with col_image:
 # Hard code - 1 role
 role_setting = 'ncb_cds_team'
 if authentication_status:
-    st.info(f"**:blue[Successful login.]**")
+    st.info(f"**:blue[Successful login.]** \n *Chú ý: Công cụ hiển thị tốt nhất trên trình duyệt ở mức thu nhỏ 75%*")
     st.session_state["role"] = role_setting
     authenticator.logout("Logout", "main")
     main()
