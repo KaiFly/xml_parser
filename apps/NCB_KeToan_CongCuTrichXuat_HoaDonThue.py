@@ -19,6 +19,16 @@ st.set_page_config(page_title="NCB Kế toán - Trích xuất dữ liệu hóa �
 error_setting_message = (
     "ERROR!"
 )
+
+# Add custom CSS to hide the GitHub icon
+hide_github_icon = """
+#GithubIcon {
+  visibility: hidden;
+}
+"""
+st.markdown(hide_github_icon, unsafe_allow_html=True)
+
+
 def main():
     # Load setting path based on account authentication
     # Setting header of Main
@@ -170,15 +180,32 @@ def main():
 
                         # Check MST in DS Blacklist or not
                         if data_name == "MST" and not is_blacklist:
-                            is_blacklist = str(data_leaf) in list(df_dn_tron_thue["TIN"])
+                            is_blacklist = int(data_leaf) in list(df_dn_tron_thue["TIN"].astype(int))
+                        # Modified datatype of VND currency
+                        if leaf in ["TgTCThue", "TgTThue", "TgTTTBSo"] and data_leaf != None:
+                            data_leaf = currency_format(int(float(data_leaf.replace(",", "."))))
+                        # Modified category of TCHDon
+                        if leaf == 'TCHDon':
+                            data_leaf = 'Hóa đơn gốc' if data_leaf == None else  ('Thay thế' if int(data_leaf) == 1 else 
+                             ('Điều chỉnh' if int(data_leaf) == 2 else data_leaf))
+
                         data_row_i.append(data_leaf)
 
-                    # Add blacklist information to last column
+                    # Add Mã số thuê - concat to -2 last column
+                    try:
+                        KHHDon = str(data_row_i[1]) if data_row_i[1] != None else ""
+                        SHDon = str(data_row_i[2]) if data_row_i[2] != None else ""
+                    except:
+                        KHHDon, SHDon = "", ""
+                    
+                    so_hieu_hoa_don = f"{KHHDon}{SHDon}"
+                    data_row_i.append(so_hieu_hoa_don)
+                    # Add blacklist information to -1 last column
                     data_row_i.append(is_blacklist)
                     # Save data row, go to next file
                     data_row.append(data_row_i)
                     file_name_index += 1
-            information_schemas = ["Tên file"] + list(df_default_field['Mô tả']) + ["DS Trốn thuế"]
+            information_schemas = ["Tên file"] + list(df_default_field['Mô tả']) + ["Ký hiệu hóa đơn", "DS Trốn thuế"]
             df_information = pd.DataFrame(data_row, columns=information_schemas)
 
 
@@ -210,7 +237,7 @@ def main():
 
                 with col_distribution_money:
                     df_information_money = df_information[["Mã số thuế người bán", "Tổng tiền thanh toán bằng số"]]
-                    df_information_money["Tổng tiền thanh toán bằng số"] = df_information_money["Tổng tiền thanh toán bằng số"].apply(lambda x: float(x))
+                    df_information_money["Tổng tiền thanh toán bằng số"] = df_information_money["Tổng tiền thanh toán bằng số"].apply(lambda x: float(x.replace(",", "")))
                     total_money_amount = currency_format(int(sum(df_information_money['Tổng tiền thanh toán bằng số'])))
                     mean_money_amount = currency_format(int(np.mean(df_information_money['Tổng tiền thanh toán bằng số'])))
                     fig = px.histogram(
@@ -250,10 +277,10 @@ def main():
 
             with st.expander("3.3 Data Export", expanded = True):
                 # Show dataframe
-                st.dataframe(df_information, hide_index=True)
+                st.dataframe(df_information, use_container_width=True, hide_index=True)
                 
                 # Download file as format
-                current_date = datetime.strftime(datetime.now(), '%Y%m%d')
+                current_date = datetime.strftime(datetime.now(), '%Y%m%d%H%M')
 
                 @st.cache_data
                 def convert_df(df):
@@ -271,20 +298,27 @@ def main():
                     return in_memory_fp.read()
                 
                 df_information_excel = to_excel(df_information)
-                st.download_button(
-                    label="⬇️ Download (Excel) ⬇️",
-                    data=df_information_excel,
-                    file_name=f"{current_date}_DuLieuTrichXuat.xlsx",
-                )
+                col_download_1, col_download_info_1 = st.columns([1, 2])
+                with col_download_1:
+                    btn1 = st.download_button(
+                        label="⬇️ Download (excel) ⬇️",
+                        data=df_information_excel,
+                        file_name=f"{current_date}_DuLieuTrichXuat.xlsx",
+                    )
+                with col_download_info_1:
+                    st.write(f"*File name: {current_date}_DuLieuTrichXuat.xlsx sau khi download*")
 
                 df_information_csv = convert_df(df_information)
-                st.download_button(
-                    label="⬇️ Download (csv) ⬇️",
-                    data=df_information_csv,
-                    file_name=f"{current_date}_DuLieuTrichXuat.csv",
-                    mime="text/csv",
-                )
-
+                col_download_2, col_download_info_2 = st.columns([1, 2])
+                with col_download_2:
+                    btn2 = st.download_button(
+                        label="⬇️ Download (csv) ⬇️",
+                        data=df_information_csv,
+                        file_name=f"{current_date}_DuLieuTrichXuat.csv",
+                        mime="text/csv",
+                    )
+                with col_download_info_2:
+                    st.write(f"*File name: {current_date}_DuLieuTrichXuat.csv sau khi download*")
 
 
 # main()
