@@ -6,13 +6,16 @@ import math
 import numpy as np
 import pandas as pd
 import random
-
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+sys.path.append(parent_dir)
 
 st.set_page_config(
     page_title="Tài liệu mô tả sử dụng công cụ", page_icon="🔎", layout="wide"
 )
 
 import base64
+#from sharepoint import *
 
 def displayPDF(file):
     with open(file, "rb") as f:

@@ -3,16 +3,19 @@ data_config = {
     "2": {"Thẻ": "HDon/DLHDon/TTChung", "Chỉ tiêu": "KHHDon", "Mô tả": "KH hóa đơn"},
     "3": {"Thẻ": "HDon/DLHDon/TTChung", "Chỉ tiêu": "SHDon", "Mô tả": "Số hóa đơn"},
     "4": {"Thẻ": "HDon/DLHDon/TTChung", "Chỉ tiêu": "NLap", "Mô tả": "Ngày lập"},
-    "5": {"Thẻ": "HDon/DLHDon/TTChung/TTHDLQuan", "Chỉ tiêu": "TCHDon", "Mô tả": "Tính chất hóa đơn"},
-    "6": {"Thẻ": "HDon/DLHDon/NDHDon/NBan", "Chỉ tiêu": "Ten", "Mô tả": "Tên người bán"},
-    "7": {"Thẻ": "HDon/DLHDon/NDHDon/NBan", "Chỉ tiêu": "MST", "Mô tả": "Mã số thuế người bán"},
-    "8": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTCThue", "Mô tả": "Tổng tiền (chưa có thuế GTGT)"},
-    "9": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTThue", "Mô tả": "Tổng tiền thuế GTGT"},
-    "10": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTTTBSo", "Mô tả": "Tổng tiền thanh toán bằng số"}
+    "5": {"Thẻ": "HDon/DLHDon/TTChung", "Chỉ tiêu": "MHSo", "Mô tả": "Mã hiệu số"},
+    "6": {"Thẻ": "HDon/DLHDon/TTChung/TTHDLQuan", "Chỉ tiêu": "TCHDon", "Mô tả": "Tính chất hóa đơn"},
+    "7": {"Thẻ": "HDon/DLHDon/NDHDon/NBan", "Chỉ tiêu": "Ten", "Mô tả": "Tên người bán"},
+    "8": {"Thẻ": "HDon/DLHDon/NDHDon/NBan", "Chỉ tiêu": "MST", "Mô tả": "Mã số thuế người bán"},
+    "9": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTCThue", "Mô tả": "Tổng tiền (chưa có thuế GTGT)"},
+    "10": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTThue", "Mô tả": "Tổng tiền thuế GTGT"},
+    "11": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTTTBSo", "Mô tả": "Tổng tiền thanh toán bằng số"}
 }
+
+# path data temp
 data_tron_thue_xls_path = "data_input/DN_TRON_THUE.xlsx"
 data_tron_thue_csv_path = "data_input/DN_TRON_THUE.csv"
-
+# path data local folder
 
 def get_nested(data, args):
     """
