@@ -5,9 +5,10 @@ import math
 import numpy as np
 import pandas as pd
 import random
-from office365.sharepoint.files.file import File
-from office365.sharepoint.client_context import ClientContext
-from office365.runtime.auth.authentication_context import AuthenticationContext
+#from office365.sharepoint.files.file import File
+#from office365.sharepoint.client_context import ClientContext
+#from office365.runtime.auth.authentication_context import AuthenticationContext
+from streamlit_gsheets import GSheetsConnection
 import yaml
 import json
 import datetime
@@ -20,12 +21,6 @@ from sharepoint import *
 st.set_page_config(
     page_title="Cập nhập danh sách TIN", page_icon="🔎", layout="wide"
 )
-
-
-# streamlit_app.py
-
-from streamlit_gsheets import GSheetsConnection
-
 # Create a connection object.
 conn = st.connection("gsheets", type=GSheetsConnection)
 st.write(conn)
