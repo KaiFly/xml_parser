@@ -21,6 +21,8 @@ from sharepoint import *
 st.set_page_config(
     page_title="Cập nhập danh sách TIN", page_icon="🔎", layout="wide"
 )
+
+st.write(st.secrets)
 # Create a connection object.
 conn = st.connection("gsheets", type=GSheetsConnection)
 st.write(conn)
