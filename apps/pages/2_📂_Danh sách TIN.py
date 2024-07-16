@@ -21,6 +21,23 @@ st.set_page_config(
     page_title="Cập nhập danh sách TIN", page_icon="🔎", layout="wide"
 )
 
+
+# streamlit_app.py
+
+from streamlit_gsheets import GSheetsConnection
+
+# Create a connection object.
+conn = st.connection("gsheets", type=GSheetsConnection)
+st.write(conn)
+df = conn.read()
+
+# Print results.
+for row in df.itertuples():
+    st.write(f"{row.name} has a :{row.pet}:")
+
+
+
+
 # Setting main-function 1
 container_function_1 = st.container(height = 360, border = True)
 # Setting main-function 2 
