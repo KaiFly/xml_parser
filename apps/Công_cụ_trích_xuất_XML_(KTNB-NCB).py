@@ -11,7 +11,7 @@ from utils import data_config, data_tron_thue_csv_path
 from utils import get_nested, to_excel
 from utils import get_leaves_and_parse
 from utils import currency_format
-from sharepoint import save_data_to_sharepoint
+# from sharepoint import save_data_to_sharepoint
 
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
@@ -20,12 +20,17 @@ from plotly.subplots import make_subplots
 
 import xmltodict
 from PIL import Image
+from sharepoint import *
 
 ## Load setting static data: data path, data source
 st.set_page_config(page_title="NCB Kế toán - Trích xuất dữ liệu hóa đơn", page_icon="👋", layout="wide")
 error_setting_message = (
     "Đã có lỗi xảy ra!"
 )
+
+#from st_files_connection import FilesConnection
+#conn = st.connection('gcs', type=FilesConnection)
+
 side_bar_progress = st.sidebar.progress(0, text="📌 Start Progress")
 
 # Add custom CSS to hide the GitHub icon
@@ -179,21 +184,29 @@ def main():
                         st.toast(f"Đã lấy thêm {df_append_field.shape[0]} trường dữ liệu!", icon='🎉')
                         st.dataframe(df_append_field)
                 with st.expander(f"2.3 Danh sách TIN - *Sử dụng để gắn cờ trong MST trốn thuế*", expanded=True):
-                    df_dn_tron_thue = pd.read_csv(TIN_file, sep=",", encoding='cp1252')
+                    #load_type = 'local'
+                    load_type = 'gcp'
+                    load_type = 'simulated'
+                    if load_type == 'local':
+                        df_dn_tron_thue = pd.read_csv(TIN_file, sep=",", encoding='cp1252')
+                    #elif load_type == 'gcp':
+                        #df_dn_tron_thue = read_TIN_data(conn)
+                    else:
+                        df_dn_tron_thue = pd.DataFrame(["0107816658","0107588627","0108949555","3700696130","3603316376","3603311265","6400351204","3603307526","0109695342","0109480883","0107551264","0107627386","0107427605","0314176011","0310505480","0303021961","0309494033","0312325571","0312634259","0305355712","0307761212","0312970589","0312441338","0308299946","0312233754","4200665880","5900413721","5900750614","5900288005","5900229419","5900404406","0401356839","4101396806","4100456435","4101189278","5900701254","4200430254","4400845055","4400828571","4400849356","4400824538","4400366704","4400886622","0107755116","0107767136","0107767143","0201988485","4101247272","4201529496","4000461488","4200490221","4200522515","4000492528","4200603267","4000501204","4201244204","4200445405","4000624051","4000599969","2601021777","3702896706","4400384767","2901872472","2901868927","4400666786","0400524840-010","0401347947","0400581214","5900189903-349","3800493310","6000706999","3800307437","4100966330","4200966077","4100963410","4201298961","4100640226","4201381419","4201304622","0801098188","0201118763","0201122858","2600451625-001","0201118837","0201118724","2600439184","0201124037","0201132334","0201122978","0201128779","0101048939","0101051917","0101040714","0100979526","0100963533","0101014182","0101013661","0101022200"], columns=["TIN"])
                     st.info(f"Hiện tại danh sách bao gồm: {df_dn_tron_thue.shape[0]} TIN")
-                    # with st.popover("Cập nhập DS MST Blacklist:"):
-                    #     st.write("**Chú ý: gồm 1 cột thông tin duy nhất: TIN**")
-                    #     uploaded_blacklist_file = st.file_uploader(label = "⬆️Tải dữ liệu MST định dạng xlsx ⬆️", accept_multiple_files=False, type = ['xlsx'])
-                    #     if uploaded_blacklist_file is not None:
-                    #         try:
-                    #             df_dn_tron_thue = pd.read_excel(uploaded_blacklist_file)[['TIN']]
-                    #             st.info(f"Upload thành công: {df_dn_tron_thue.shape[0]} bản ghi")
-                    #         except:
-                    #             st.error("Kiểm tra lại file, chú ý file excel chỉ gồm 1 thông tin là TIN!")
-                    # df_dn_tron_thue["TIN"] = df_dn_tron_thue["TIN"].astype(str)
+                    with st.popover("Cập nhập DS MST Blacklist:"):
+                        st.write("**Chú ý: gồm 1 cột thông tin duy nhất: TIN**")
+                        uploaded_blacklist_file = st.file_uploader(label = "⬆️Tải dữ liệu MST định dạng xlsx ⬆️", accept_multiple_files=False, type = ['xlsx'])
+                        if uploaded_blacklist_file is not None:
+                            try:
+                                df_dn_tron_thue = pd.read_excel(uploaded_blacklist_file)[['TIN']]
+                                st.info(f"Upload thành công: {df_dn_tron_thue.shape[0]} bản ghi")
+                            except:
+                                st.error("Kiểm tra lại file, chú ý file excel chỉ gồm 1 thông tin là TIN!")
+                    df_dn_tron_thue["TIN"] = df_dn_tron_thue["TIN"].astype(str)
             with col_confirm_button:
                 if st.button(f"Xác nhận \n Cấu hình", type='primary', on_click=step2_click_button_configuration):
-                    st.toast(f'Đã xáC nhận cấu hình thành công!', icon='🎉')
+                    st.toast(f'Đã xác nhận cấu hình thành công!', icon='🎉')
                     step2_click_button_configuration()
 
     with container_function_2:

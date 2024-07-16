@@ -37,11 +37,33 @@ with container_function_1:
   """
   )
   st.markdown("*Người dùng có thể tìm kiếm thông tin thông qua icon 🔍*")
-  # Load XML currently
-  XML_file = f"{parent_dir}\dataset_XML\data.xlsx"
-  df_xml_data = pd.read_excel(XML_file, engine='openpyxl')
+
+  #load_type = 'local'
+  #load_type = 'gcs'
+  load_type = 'simulated'
+  if load_type == 'local':
+    # Load XML currently
+    XML_file = f"{parent_dir}\dataset_XML\data.xlsx"
+    df_xml_data = pd.read_excel(XML_file, engine='openpyxl')
+    st.dataframe(df_xml_data)
+  
+  elif load_type == 'gcs':
+    st.warning("Hiện tại đang đọc DL lưu trữ trên Google Cloud Storage, (Read-Only)")
+    from st_files_connection import FilesConnection
+    conn = st.connection('gcs', type=FilesConnection)
+    df_xml_data = read_XML_data(conn)
+  else:
+    st.warning("Hiện tại đang đọc DL lưu trữ trên Google Cloud Storage, (Read-Only)")
+    df_xml_data = pd.DataFrame(columns=["Tên file","Ký hiệu mẫu số hóa đơn","KH hóa đơn","Số hóa đơn","Ngày lập","Mã hiệu số","Tính chất hóa đơn","Tên người bán","Mã số thuế người bán","Tổng tiền (chưa có thuế GTGT)","Tổng tiền thuế GTGT","Tổng tiền thanh toán bằng số","Ký hiệu hóa đơn","DS Trốn thuế","Thiếu SHDon","Thiếu MHSo","Thời gian cập nhập","User cập nhập"],
+                                data=   [["1C24MTT_00001147.xml","1","C24MTT","1147","2024-05-17","","Hóa đơn gốc","CHI NHÁNH CÔNG TY TNHH NHẤT LY","0200519875-001","489,000","48,900","537,900","1C24MTT",False,False,True,"2024-07-15 10:21:02","ncb_ketoannoibo"],
+                                        ["8113485575-C24TTV26.xml","2","C24TTV","26","2024-05-14","","Hóa đơn gốc","HỘ KINH DOANH CƠ SỞ CƠ ĐIỆN LẠNH THANH VÂN","8113485575","","","150,000","2C24TTV",False,False,True,"2024-07-15 10:21:02","ncb_ketoannoibo"],
+                                        ["C24MHK-00011370-U9IMSEWIWP5-DPH.xml","1","C24MHK","11370","2024-04-11","","Hóa đơn gốc","CÔNG TY CỔ PHẦN TAKAHIRO","0315827587","4,098,000","327,840","4,425,840","1C24MHK",False,False,True,"2024-07-15 10:21:02","ncb_ketoannoibo"],
+                                        ["C24THB-00000232-VALWOLD7K64-DPH.xml","1","C24THB","232","2024-06-12","","Hóa đơn gốc","CÔNG TY CỔ PHẦN QUẢN LÝ THƯƠNG MẠI DỊCH VỤ TỔNG HỢP HAI BÀ TRƯNG","0110215449","140,694,457","11,255,558","151,950,015","1C24THB",False,False,True,"2024-07-15 10:21:02","ncb_ketoannoibo"],
+                                        ["1_001_K24TAA_2780_2017.xml","1","K24TAA","2780","2024-06-14","","Hóa đơn gốc","NGÂN HÀNG THƯƠNG MẠI CỔ PHẦN QUỐC DÂN","1700169765","20,000","2,000","22,000","1K24TAA",False,False,False,"2024-07-15 10:21:41","ncb_ketoannoibo"],
+                                        ["C24MDA-00003370-T9TATD0I016-DPH.xml","1","C24MDA","3370","2024-04-27","","Hóa đơn gốc","CÔNG TY TNHH ĐẦU TƯ XÂY DỰNG THƯƠNG MẠI DU LỊCH VÀ ẨM THỰC ĐÔNG DƯƠNG","0107514336","3,759,200","302,536","4,061,736","1C24MDA",False,False,True,"2024-07-15 10:21:41","ncb_ketoannoibo"],
+                                        ["XML loi.xml","1","C24TLD","846","2024-07-10","","Hóa đơn gốc","CÔNG TY TNHH THƯƠNG MẠI- DỊCH VỤ LÊ DUY","0302698197","2,777,778","222,222","3,000,000","1C24TLD",False,False,True,"2024-07-15 10:21:41","ncb_ketoannoibo"]])
   st.dataframe(df_xml_data)
-    
+
 with container_function_2:
   st.markdown(
       """
