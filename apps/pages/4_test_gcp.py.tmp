@@ -1,19 +1,11 @@
 import streamlit as st
-
-
-
 # st.set_page_config(
 #     page_title="Cập nhập danh sách TIN", page_icon="🔎", layout="wide"
 # )
 
 # # Create connection object and retrieve file contents.
 # from sharepoint import *
-
 # df_TIN = read_TIN_data(conn)
 # st.dataframe(df_TIN, hide_index=True)
 # df_XML = read_XML_data(conn)
 # st.dataframe(df_XML, hide_index=True)
-
-
-
-

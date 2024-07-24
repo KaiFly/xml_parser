@@ -8,7 +8,7 @@ import numpy as np
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
-from sharepoint import *
+from apps.gcp_connector import *
 
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
