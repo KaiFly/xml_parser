@@ -8,7 +8,6 @@ import numpy as np
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
-from apps.gcp_connector import *
 
 import plotly.figure_factory as ff
 import plotly.graph_objects as go
@@ -22,6 +21,7 @@ st.set_page_config(
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
+from ggsheet_connector import *
 
 # Setting main-function 1
 container_function_1 = st.container(height = 250, border = True)
@@ -40,18 +40,24 @@ with container_function_1:
 
   #load_type = 'local'
   #load_type = 'gcs'
-  load_type = 'simulated'
+  load_type = 'ggs'
   if load_type == 'local':
     # Load XML currently
     XML_file = f"{parent_dir}\dataset_XML\data.xlsx"
     df_xml_data = pd.read_excel(XML_file, engine='openpyxl')
     st.dataframe(df_xml_data)
-  
   elif load_type == 'gcs':
     st.warning("Hiện tại đang đọc DL lưu trữ trên Google Cloud Storage, (Read-Only)")
-    from st_files_connection import FilesConnection
-    conn = st.connection('gcs', type=FilesConnection)
-    df_xml_data = read_XML_data(conn)
+    # from st_files_connection import FilesConnection
+    # conn = st.connection('gcs', type=FilesConnection)
+    # df_xml_data = read_XML_data()
+  elif load_type == 'ggs':
+    df_xml_data = read_XML_data()
+    def transform_number_to_boolean(x):
+      return True if x == 1 else (False if x == 0 else x)
+    df_xml_data["DS Trốn thuế"] = df_xml_data["DS Trốn thuế"].apply(lambda x: transform_number_to_boolean(x))
+    df_xml_data["Thiếu SHDon"] = df_xml_data["Thiếu SHDon"].apply(lambda x: transform_number_to_boolean(x))
+    df_xml_data["Thiếu MHSo"] = df_xml_data["Thiếu MHSo"].apply(lambda x: transform_number_to_boolean(x))
   else:
     st.warning("Hiện tại đang đọc DL lưu trữ trên Google Cloud Storage, (Read-Only)")
     df_xml_data = pd.DataFrame(columns=["Tên file","Ký hiệu mẫu số hóa đơn","KH hóa đơn","Số hóa đơn","Ngày lập","Mã hiệu số","Tính chất hóa đơn","Tên người bán","Mã số thuế người bán","Tổng tiền (chưa có thuế GTGT)","Tổng tiền thuế GTGT","Tổng tiền thanh toán bằng số","Ký hiệu hóa đơn","DS Trốn thuế","Thiếu SHDon","Thiếu MHSo","Thời gian cập nhập","User cập nhập"],
