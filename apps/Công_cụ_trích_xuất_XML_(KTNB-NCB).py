@@ -34,12 +34,15 @@ from ggsheet_connector import *
 side_bar_progress = st.sidebar.progress(0, text="📌 Start Progress")
 
 #----------------------Hide Streamlit footer----------------------------
-hide_st_style = """
-#MainMenu {visibility: hidden;}
-footer {visibility: hidden;}
-header {visibility: hidden;}
-"""
-st.markdown(hide_st_style, unsafe_allow_html=True)
+st.markdown(
+    """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 #--------------------------------------------------------------------
 # Add custom CSS to hide the GitHub icon
 st.markdown(
