@@ -356,7 +356,7 @@ def main():
                             except:
                                 return None
                         df_information_money["Tổng tiền thanh toán bằng số"] = df_information_money["Tổng tiền thanh toán bằng số"].apply(lambda x: reformat_money(x))
-                        total_money_amount = currency_format(int(sum(df_information_money['Tổng tiền thanh toán bằng số'])))
+                        total_money_amount = currency_format(int(np.sum(df_information_money['Tổng tiền thanh toán bằng số'])))
                         mean_money_amount = currency_format(int(np.mean(df_information_money['Tổng tiền thanh toán bằng số'])))
                         fig = px.histogram(
                             df_information_money,
