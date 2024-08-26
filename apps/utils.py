@@ -9,7 +9,8 @@ data_config = {
     "8": {"Thẻ": "HDon/DLHDon/NDHDon/NBan", "Chỉ tiêu": "MST", "Mô tả": "Mã số thuế người bán"},
     "9": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTCThue", "Mô tả": "Tổng tiền (chưa có thuế GTGT)"},
     "10": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTThue", "Mô tả": "Tổng tiền thuế GTGT"},
-    "11": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTTTBSo", "Mô tả": "Tổng tiền thanh toán bằng số"}
+    "11": {"Thẻ": "HDon/DLHDon/NDHDon/TToan", "Chỉ tiêu": "TgTTTBSo", "Mô tả": "Tổng tiền thanh toán bằng số"},
+    "12": {"Thẻ": "HDon/DLHDon/NDHDon/NMua", "Chỉ tiêu": "MST", "Mô tả": "Mã số thuế người mua"}
 }
 
 # path data temp
