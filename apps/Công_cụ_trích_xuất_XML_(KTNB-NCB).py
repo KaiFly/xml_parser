@@ -310,13 +310,14 @@ def main():
                         data_row_i.append(so_hieu_hoa_don)
 
                         # Add blacklist information to -n last column
-                        is_blacklist = 1 if is_blacklist else 0
+                        # is_blacklist = 1 if is_blacklist else 0
                         data_row_i.append(is_blacklist)
                         # Add is missing SHDon information to -n+1 last column
-                        is_missing_SHDon = 1 if is_missing_SHDon else 0
+                        # is_missing_SHDon = 1 if is_missing_SHDon else 0
                         data_row_i.append(is_missing_SHDon)
                         # Add is missing MHSo with KHHDON start with C information to -n+2 last column                        
-                        is_missing_MHSo_rule = 1 if (is_missing_MHSo and is_KHHDON_start_C) else 0
+                        # is_missing_MHSo_rule = 1 if (is_missing_MHSo and is_KHHDON_start_C) else 0
+                        is_missing_MHSo_rule = is_missing_MHSo and is_KHHDON_start_C
                         data_row_i.append(is_missing_MHSo_rule)
                         # Save data row, go to next file
                         data_row.append(data_row_i)
