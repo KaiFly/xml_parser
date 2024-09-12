@@ -34,17 +34,14 @@ from ggsheet_connector import *
 side_bar_progress = st.sidebar.progress(0, text="📌 Start Progress")
 
 #----------------------Hide Streamlit footer----------------------------
-st.markdown(
-    """
+hide_footer = """
     <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+        #MainMenu {visibility: hidden;}
+        footer {visibility: hidden;}
     </style>
-    """,
-    unsafe_allow_html=True
-)
-#--------------------------------------------------------------------
-# Add custom CSS to hide the GitHub icon
+"""
+st.markdown(hide_footer, unsafe_allow_html=True)
+#---------------Add custom CSS to hide the GitHub icon-----------------
 st.markdown(
     """
     <style>
@@ -311,22 +308,23 @@ def main():
                         
                         so_hieu_hoa_don = f"{KHHDon}{SHDon}"
                         data_row_i.append(so_hieu_hoa_don)
+
                         # Add blacklist information to -n last column
+                        is_blacklist = 1 if is_blacklist else 0
                         data_row_i.append(is_blacklist)
                         # Add is missing SHDon information to -n+1 last column
+                        is_missing_SHDon = 1 if is_missing_SHDon else 0
                         data_row_i.append(is_missing_SHDon)
-                        # Add is missing MHSo with KHHDON start with C information to -n+2 last column
-                        data_row_i.append(is_missing_MHSo and is_KHHDON_start_C)
+                        # Add is missing MHSo with KHHDON start with C information to -n+2 last column                        
+                        is_missing_MHSo_rule = 1 if (is_missing_MHSo and is_KHHDON_start_C) else 0
+                        data_row_i.append(is_missing_MHSo_rule)
                         # Save data row, go to next file
                         data_row.append(data_row_i)
                         file_name_index += 1
                 information_schemas = ["Tên file"] + list(df_default_field['Mô tả']) + ["Ký hiệu hóa đơn", "DS Trốn thuế", "Thiếu SHDon", "Thiếu MHSo"]
                 df_information = pd.DataFrame(data_row, columns=information_schemas)
 
-
                 with st.expander("3.2 Data Insight", expanded = False):
-
-
                     col_distribution_null_check, col_distribution_blacklist, col_distribution_money  = st.columns([3,2,2])
                     with col_distribution_blacklist:
                         #st.dataframe(df_information)
