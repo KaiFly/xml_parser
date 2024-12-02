@@ -154,7 +154,7 @@ def main():
                         #st.write(string_data_i)
                         dict_string_io_data[uploaded_file_i.name] = string_data_i
                     except:
-                        st.error("Lỗi file: ", uploaded_file_i.name)
+                        st.error(f"Lỗi file: {uploaded_file_i.name}")
                 step1_upload_file()
             if st.session_state.step_1 and not st.session_state.step_2:
                 st.sidebar.write("""**✅ STEP 1:** *Upload Files*""")
