@@ -147,11 +147,14 @@ def main():
                 dict_string_io_data = {}
                 list_string_io_data = []
                 for uploaded_file_i in uploaded_files:
-                    stringio_i = StringIO(uploaded_file_i.getvalue().decode("utf-8"))
-                    string_data_i = stringio_i.read()
-                    list_string_io_data.append(string_data_i)
-                    #st.write(string_data_i)
-                    dict_string_io_data[uploaded_file_i.name] = string_data_i
+                    try:
+                        stringio_i = StringIO(uploaded_file_i.getvalue().decode("utf-8"))
+                        string_data_i = stringio_i.read()
+                        list_string_io_data.append(string_data_i)
+                        #st.write(string_data_i)
+                        dict_string_io_data[uploaded_file_i.name] = string_data_i
+                    except:
+                        st.error("Lỗi file: ", uploaded_file_i.name)
                 step1_upload_file()
             if st.session_state.step_1 and not st.session_state.step_2:
                 st.sidebar.write("""**✅ STEP 1:** *Upload Files*""")
